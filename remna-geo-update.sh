@@ -42,8 +42,8 @@ FILE_OWNER="${FILE_OWNER:-root:root}"
 MIN_SIZE="${MIN_SIZE:-4096}"                      # reject obviously bad/empty downloads (bytes)
 
 LOG_FILE="${LOG_FILE:-/var/log/remna-geo-update.log}"
-TIMER_CALENDAR="${TIMER_CALENDAR:-*-*-* 04:00:00}" # systemd OnCalendar (nightly)
-TIMER_DELAY="${TIMER_DELAY:-1800}"                 # RandomizedDelaySec (spread the load)
+TIMER_CALENDAR="${TIMER_CALENDAR:-*-*-* 04:00:00}" # systemd OnCalendar (nightly, strictly 04:00)
+TIMER_DELAY="${TIMER_DELAY:-0}"                     # RandomizedDelaySec; 0 = run strictly on time, >0 spreads the load
 
 # Canonical raw URL of this script (used for self-install via `curl | bash`).
 RAW_URL="${RAW_URL:-https://raw.githubusercontent.com/Agellar/remna-geo-update/main/remna-geo-update.sh}"
@@ -223,18 +223,20 @@ Type=oneshot
 ExecStart=${SELF_PATH} update
 EOF
 
-    cat >"/etc/systemd/system/${SVC_NAME}.timer" <<EOF
-[Unit]
-Description=Nightly update of Remnawave geo files (roscomvpn)
-
-[Timer]
-OnCalendar=${TIMER_CALENDAR}
-RandomizedDelaySec=${TIMER_DELAY}
-Persistent=true
-
-[Install]
-WantedBy=timers.target
-EOF
+    {
+        echo "[Unit]"
+        echo "Description=Nightly update of Remnawave geo files (roscomvpn)"
+        echo ""
+        echo "[Timer]"
+        echo "OnCalendar=${TIMER_CALENDAR}"
+        if [ "${TIMER_DELAY:-0}" -gt 0 ] 2>/dev/null; then
+            echo "RandomizedDelaySec=${TIMER_DELAY}"
+        fi
+        echo "Persistent=true"
+        echo ""
+        echo "[Install]"
+        echo "WantedBy=timers.target"
+    } >"/etc/systemd/system/${SVC_NAME}.timer"
 
     systemctl daemon-reload
     systemctl enable --now "${SVC_NAME}.timer"
@@ -244,9 +246,9 @@ EOF
 install_cron() {
     cat >"/etc/cron.d/${SVC_NAME}" <<EOF
 # Nightly update of Remnawave geo files (roscomvpn)
-30 4 * * * root ${SELF_PATH} update >/dev/null 2>&1
+0 4 * * * root ${SELF_PATH} update >/dev/null 2>&1
 EOF
-    log "cron job installed at /etc/cron.d/${SVC_NAME} (04:30 daily)."
+    log "cron job installed at /etc/cron.d/${SVC_NAME} (04:00 daily)."
 }
 
 install_self() {
