@@ -46,7 +46,7 @@ TIMER_CALENDAR="${TIMER_CALENDAR:-*-*-* 04:00:00}" # systemd OnCalendar (nightly
 TIMER_DELAY="${TIMER_DELAY:-0}"                     # RandomizedDelaySec; 0 = run strictly on time, >0 spreads the load
 
 # Canonical raw URL of this script (used for self-install via `curl | bash`).
-RAW_URL="${RAW_URL:-https://raw.githubusercontent.com/Agellar/remna-geo-update/main/remna-geo-update.sh}"
+RAW_URL="${RAW_URL:-https://raw.githubusercontent.com/geliopat/remna-geo-update/main/remna-geo-update.sh}"
 
 SELF_PATH="/usr/local/bin/remna-geo-update.sh"
 CONF_FILE="/etc/remna-geo-update.conf"
