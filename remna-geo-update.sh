@@ -33,8 +33,8 @@ COMPOSE_FILE="${COMPOSE_FILE:-/opt/${APP_NAME}/docker-compose.yml}"
 DATA_DIR="${DATA_DIR:-/var/lib/${APP_NAME}}"
 CONTAINER="${CONTAINER:-remnanode}"
 
-GEOIP_URL="${GEOIP_URL:-https://github.com/hydraponique/roscomvpn-geoip/releases/latest/download/geoip.dat}"
-GEOSITE_URL="${GEOSITE_URL:-https://github.com/hydraponique/roscomvpn-geosite/releases/latest/download/geosite.dat}"
+GEOIP_URL="${GEOIP_URL:-https://raw.githubusercontent.com/runetfreedom/russia-v2ray-rules-dat/release/geoip.dat}"
+GEOSITE_URL="${GEOSITE_URL:-https://raw.githubusercontent.com/runetfreedom/russia-v2ray-rules-dat/release/geosite.dat}"
 
 RESTART_ON_CHANGE="${RESTART_ON_CHANGE:-true}"   # restart node when a file changed
 FILE_MODE="${FILE_MODE:-0644}"                   # 0644 = world-readable (any container UID)
