@@ -42,7 +42,7 @@ FILE_OWNER="${FILE_OWNER:-root:root}"
 MIN_SIZE="${MIN_SIZE:-4096}"                      # reject obviously bad/empty downloads (bytes)
 
 LOG_FILE="${LOG_FILE:-/var/log/remna-geo-update.log}"
-TIMER_CALENDAR="${TIMER_CALENDAR:-*-*-* 04:00:00}" # systemd OnCalendar (nightly, strictly 04:00)
+TIMER_CALENDAR="${TIMER_CALENDAR:-*-*-* 00:00:00}" # systemd OnCalendar (nightly, strictly 00:00)
 TIMER_DELAY="${TIMER_DELAY:-0}"                     # RandomizedDelaySec; 0 = run strictly on time, >0 spreads the load
 
 # Canonical raw URL of this script (used for self-install via `curl | bash`).
