@@ -27,7 +27,7 @@ volumes:
 ## Установка одной строкой
 
 ```bash
-bash <(curl -Ls https://raw.githubusercontent.com/Agellar/remna-geo-update/main/remna-geo-update.sh) install
+bash <(curl -Ls https://raw.githubusercontent.com/geliopat/remna-geo-update/main/remna-geo-update.sh) install
 ```
 
 Команда скопирует скрипт в `/usr/local/bin/remna-geo-update.sh`, поднимет ночной
