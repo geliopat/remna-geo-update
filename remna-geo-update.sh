@@ -49,6 +49,7 @@ TIMER_DELAY="${TIMER_DELAY:-0}"                     # RandomizedDelaySec; 0 = ru
 RAW_URL="${RAW_URL:-https://raw.githubusercontent.com/geliopat/remna-geo-update/main/remna-geo-update.sh}"
 
 SELF_PATH="/usr/local/bin/remna-geo-update.sh"
+COMMAND_PATH="/usr/local/bin/remna-geo-update"
 CONF_FILE="/etc/remna-geo-update.conf"
 LOCK_FILE="/run/remna-geo-update.lock"
 SVC_NAME="remna-geo-update"
@@ -268,6 +269,8 @@ install_self() {
         chmod 0755 "$SELF_PATH"
     fi
     log "Installed script -> $SELF_PATH"
+    ln -sfn "$SELF_PATH" "$COMMAND_PATH"
+    log "Global command installed -> $COMMAND_PATH"
     touch "$LOG_FILE" 2>/dev/null || true
 
     if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ]; then
@@ -291,6 +294,7 @@ uninstall_self() {
     fi
     rm -f "/etc/cron.d/${SVC_NAME}"
     rm -f "$SELF_PATH"
+    rm -f "$COMMAND_PATH"
     log "Removed timer/service and $SELF_PATH (kept geo files, $LOG_FILE and $CONF_FILE)."
 }
 
